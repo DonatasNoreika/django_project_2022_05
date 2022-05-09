@@ -2,7 +2,23 @@ from django.contrib import admin
 from .models import Project, Client, Employee, Job, Invoice
 
 # Register your models here.
-admin.site.register(Project)
+
+class JobInline(admin.TabularInline):
+    model = Job
+    extra = 0
+
+
+class InvoiceInline(admin.TabularInline):
+    model = Invoice
+    extra = 0
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_date', 'end_date', 'client', 'manager')
+    list_editable = ('start_date', 'end_date', 'client', 'manager')
+    inlines = [JobInline, InvoiceInline]
+
+
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Client)
 admin.site.register(Employee)
 admin.site.register(Job)
