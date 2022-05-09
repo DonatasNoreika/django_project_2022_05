@@ -13,6 +13,21 @@
 <p><strong>Client:</strong> {{ project.client.name }} {{ project.client.lastname }}</p>
 <p><strong>Manager:</strong> {{ project.manager }}</p>
 <p>{{ project.description | safe }}</p>
+<h4>Jobs:</h4>
+{% for job in project.jobs.all %}
+<p>{{ job.title }}</p>
+{% endfor %}
+
+<h4>Invoice:</h4>
+{% for invoice in project.invoices.all %}
+<p>{{ invoice.date }}: {{ invoice.total }}</p>
+{% endfor %}
+
+<h4>Employees:</h4>
+{% for emp in project.employees.all %}
+<p>{{ emp.name }}: {{ emp.lastname }}</p>
+{% endfor %}
+
 {% if project.manager == user %}
 <div>
     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'project_update' project.id %}">Edit</a>
