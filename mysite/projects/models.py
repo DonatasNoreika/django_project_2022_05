@@ -17,6 +17,14 @@ class Project(models.Model):
         return f'{self.id} {self.name}'
 
 
+class ProjectComment(models.Model):
+    project = models.ForeignKey('Project', verbose_name="Project", on_delete=models.SET_NULL, null=True,
+                                related_name='comments')
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.CharField('Comment', max_length=2000)
+
+
 class Photo(models.Model):
     photo = models.ImageField('Cover', upload_to='covers', null=True)
     project = models.ForeignKey('Project', verbose_name="Project", on_delete=models.SET_NULL, null=True,

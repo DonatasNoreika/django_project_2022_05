@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Client, Employee, Job, Invoice, Photo
+from .models import Project, Client, Employee, Job, Invoice, Photo, ProjectComment
 
 # Register your models here.
 
@@ -17,10 +17,15 @@ class PhotoInline(admin.TabularInline):
     model = Photo
     extra = 0
 
+
+class CommentInline(admin.TabularInline):
+    model = ProjectComment
+    extra = 0
+
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'start_date', 'end_date', 'client', 'manager')
     list_editable = ('start_date', 'end_date', 'client', 'manager')
-    inlines = [JobInline, InvoiceInline, PhotoInline]
+    inlines = [CommentInline, JobInline, InvoiceInline, PhotoInline]
 
 
 admin.site.register(Project, ProjectAdmin)

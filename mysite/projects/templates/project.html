@@ -13,6 +13,13 @@
 <p><strong>Client:</strong> {{ project.client.name }} {{ project.client.lastname }}</p>
 <p><strong>Manager:</strong> {{ project.manager }}</p>
 <p>{{ project.description | safe }}</p>
+<h4>Comments:</h4>
+{% for commment in project.comments.all %}
+<p>{{ commment.reviewer }}, {{ commment.date_created }}</p>
+<p>{{ commment.content }}</p>
+<hr/>
+{% endfor %}
+
 <h4>Jobs:</h4>
 {% for job in project.jobs.all %}
 <p>{{ job.title }}</p>
