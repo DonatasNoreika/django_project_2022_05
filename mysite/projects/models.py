@@ -5,8 +5,8 @@ from tinymce.models import HTMLField
 # Create your models here.
 class Project(models.Model):
     name = models.CharField('Name', max_length=200)
-    start_date = models.DateField('Start date')
-    end_date = models.DateField('End date')
+    start_date = models.DateField('Start date', null=True)
+    end_date = models.DateField('End date', null=True)
     client = models.ForeignKey('Client', on_delete=models.SET_NULL, null=True)
     manager = models.ForeignKey(User, verbose_name="Manager", on_delete=models.SET_NULL, null=True)
     employees = models.ManyToManyField('Employee', verbose_name="Employees")

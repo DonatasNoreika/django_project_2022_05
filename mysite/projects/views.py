@@ -4,6 +4,7 @@ from .models import Project
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -26,6 +27,16 @@ class UserProjectListView(generic.ListView):
 
     def get_queryset(self):
         return Project.objects.filter(manager=self.request.user)
+
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    fields = ['name', 'client']
+    success_url = "/projects/"
+    template_name = 'project_form.html'
+
+    def form_valid(self, form):
+        form.instance.manager = self.request.user
+        return super().form_valid(form)
 
 
 @csrf_protect
