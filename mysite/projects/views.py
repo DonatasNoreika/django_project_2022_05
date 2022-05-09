@@ -54,6 +54,17 @@ class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateV
         return self.request.user == project.manager
 
 
+class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Project
+    success_url = "/projects/"
+    template_name = 'project_delete.html'
+    context_object_name = 'project'
+
+    def test_func(self):
+        project = self.get_object()
+        return self.request.user == project.manager
+
+
 @csrf_protect
 def register(request):
     if request.method == "POST":

@@ -16,6 +16,7 @@
 {% if project.manager == user %}
 <div>
     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'project_update' project.id %}">Edit</a>
+    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'project_delete' project.id %}">Ištrinti</a>
 </div>
 {% endif %}
 <h4>Photos:</h4>
