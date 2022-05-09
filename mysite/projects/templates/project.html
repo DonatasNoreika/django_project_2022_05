@@ -14,6 +14,17 @@
 <p><strong>Manager:</strong> {{ project.manager }}</p>
 <p>{{ project.description | safe }}</p>
 <h4>Comments:</h4>
+  {% if user.is_authenticated %}
+  <div class="fieldWrapper">
+    <hr><br/>
+    <h4>Palikite komentarą:</h4>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.content }}</br>
+      <input type="submit" value="Išsaugoti">
+    </form>
+  </div>
+  {% endif %}
 {% for commment in project.comments.all %}
 <p>{{ commment.reviewer }}, {{ commment.date_created }}</p>
 <p>{{ commment.content }}</p>

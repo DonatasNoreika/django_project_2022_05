@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views import generic
 from .models import Project
 from django.contrib import messages
@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic.edit import FormMixin
+from .forms import ProjectCommentForm
 
 # Create your views here.
 class ProjectListView(generic.ListView):
@@ -14,10 +16,36 @@ class ProjectListView(generic.ListView):
     context_object_name = 'projects'
 
 
-class ProjectDetailView(generic.DetailView):
+class ProjectDetailView(generic.DetailView, FormMixin):
     model = Project
     template_name = 'project.html'
     context_object_name = 'project'
+    form_class = ProjectCommentForm
+
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.object.id})
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProjectDetailView, self).get_context_data(*args, **kwargs)
+        context['form'] = ProjectCommentForm()
+        return context
+
+    # standartinis post metodo perrašymas, naudojant FormMixin, galite kopijuoti tiesiai į savo projektą.
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+    # štai čia nurodome, kad knyga bus būtent ta, po kuria komentuojame, o vartotojas bus tas, kuris yra prisijungęs.
+    def form_valid(self, form):
+        form.instance.project = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super(ProjectDetailView, self).form_valid(form)
 
 
 class UserProjectListView(generic.ListView):
