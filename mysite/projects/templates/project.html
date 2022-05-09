@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+<hr/>
+<p><strong>Name:</strong> {{ project.name }}</p>
+<p><strong>From:</strong> {{ project.start_date }}</p>
+<p><strong>To:</strong> {{ project.end_date }}</p>
+<p><strong>Client:</strong> {{ project.client.name }} {{ project.client.lastname }}</p>
+<p><strong>Manager:</strong> {{ project.manager }}</p>
+{% endblock %}
