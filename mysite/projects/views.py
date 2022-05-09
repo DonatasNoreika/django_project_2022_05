@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 
+
 # Create your views here.
 class ProjectListView(generic.ListView):
     model = Project
@@ -17,6 +18,14 @@ class ProjectDetailView(generic.DetailView):
     template_name = 'project.html'
     context_object_name = 'project'
 
+
+class UserProjectListView(generic.ListView):
+    model = Project
+    template_name = 'user_project_list.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        return Project.objects.filter(manager=self.request.user)
 
 
 @csrf_protect
