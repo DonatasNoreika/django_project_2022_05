@@ -13,4 +13,8 @@
 <p><strong>Client:</strong> {{ project.client.name }} {{ project.client.lastname }}</p>
 <p><strong>Manager:</strong> {{ project.manager }}</p>
 <p>{{ project.description | safe }}</p>
+<h4>Photos:</h4>
+{% for photo in project.photos.all %}
+<img src="{{ photo.photo.url }}" class="card-img-top" alt="...">
+{% endfor %}
 {% endblock %}

@@ -10,11 +10,17 @@ class Project(models.Model):
     client = models.ForeignKey('Client', on_delete=models.SET_NULL, null=True)
     manager = models.ForeignKey(User, verbose_name="Manager", on_delete=models.SET_NULL, null=True)
     employees = models.ManyToManyField('Employee', verbose_name="Employees")
-    cover = models.ImageField('Cover', upload_to='covers', null=True)
+    # cover = models.ImageField('Cover', upload_to='covers', null=True)
     description = HTMLField('Description', null=True)
 
     def __str__(self):
         return f'{self.id} {self.name}'
+
+
+class Photo(models.Model):
+    photo = models.ImageField('Cover', upload_to='covers', null=True)
+    project = models.ForeignKey('Project', verbose_name="Project", on_delete=models.SET_NULL, null=True,
+                                related_name='photos')
 
 
 class Client(models.Model):
