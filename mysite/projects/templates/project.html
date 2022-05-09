@@ -13,6 +13,11 @@
 <p><strong>Client:</strong> {{ project.client.name }} {{ project.client.lastname }}</p>
 <p><strong>Manager:</strong> {{ project.manager }}</p>
 <p>{{ project.description | safe }}</p>
+{% if project.manager == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'project_update' project.id %}">Edit</a>
+</div>
+{% endif %}
 <h4>Photos:</h4>
 {% for photo in project.photos.all %}
 <img src="{{ photo.photo.url }}" class="card-img-top" alt="...">
